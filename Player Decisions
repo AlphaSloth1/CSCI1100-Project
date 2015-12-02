@@ -1,1 +1,79 @@
+//irrelevent plot options, adds a story where there really isn't one
+import java.util.Scanner;
+import java.lang.Math;
 
+public class PlotStuff{
+   public static void main(String[] args){
+   
+      PlotDecision();
+   
+   }
+   
+   public static void PlotDecision(){
+      
+      Scanner a = new Scanner(System.in);
+      
+      //randomizes the decision to be made
+      double d = (Math.ceil(Math.random() * 4));
+      int rndm = (int) d;
+          
+      //calls a method to make the player decide something
+      if (rndm == 1){
+         leftRight();
+      }
+      else if (rndm == 2){
+         upDown();   
+      } else if (rndm == 3){
+         downHole();
+      }else {
+         System.out.println("Nothing interesting happens...");
+      } 
+   } 
+   
+   public static void leftRight(){
+   
+      Scanner a = new Scanner(System.in);
+      String choice = "";
+         
+      System.out.println("The hallway has ended, do you want to turn right or left");
+      choice = a.next();
+      //makes sure the player made a valid choice
+      if (choice.equals("right")||choice.equals("left")){
+         System.out.println("You turn "+choice);
+      }else {
+      //if their choice is invalid, they are told and the function is recurred
+         System.out.println("That is not an option, sorry");
+         leftRight();
+      }
+   }
+   
+   //these should all be binary decisions, and therefore use the same format
+   public static void upDown(){
+      Scanner a = new Scanner(System.in);
+      String choice = "";
+         
+      System.out.println("You come across a staircase, do you want to go up or down?");
+      choice = a.next();
+      if (choice.equals("up")||choice.equals("down")){
+         System.out.println("You go "+choice);
+      }else {
+         System.out.println("That is not an option, sorry");
+         upDown();
+      }
+   }
+   public static void downHole(){
+      Scanner a = new Scanner(System.in);
+      String choice = "";
+         
+      System.out.println("There is a hole with a ladder in front of you, would you like to climb down?");
+      choice = a.next();
+      if (choice.equals("yes")||choice.equals("no")){
+         System.out.println("Good Choice");
+      }else {
+         System.out.println("That is not an option, sorry");
+         downHole();
+      }
+   }
+}
+       
+      
