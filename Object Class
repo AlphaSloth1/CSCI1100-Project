@@ -1,0 +1,78 @@
+//class for Mathemon, used for generation
+import java.lang.Math;
+
+public class Mathemon{
+
+   String name;
+   String type;
+   
+   //combat variables
+   int typeValue;   
+   int attack;
+   int defence;
+   int hitPoints;
+   int energy;
+   
+   //string that outputs useful info
+   String infoString = "";
+   
+   //method which generates new mathemon objects
+   public Mathemon(String name, String type){
+      this.name = name;
+      this.type = type;
+      this.attack = 0;
+      this.defence = 0;
+      this.hitPoints = 0;
+      this.energy = 0;
+      
+      this.updateInfoString();
+      
+      System.out.println(infoString);     
+   }
+   
+   //update info string, use whenever a value is changed
+   private void updateInfoString(){
+      this.infoString = "Name: "+name+"\nType: "+type+"\nAttack: "+attack+"\nDefence: "+defence+"\nHit Points: "+hitPoints+ "\nEnergy: "+energy;
+   }
+   
+   //variable setters
+   public void setAttack(int x){
+      this.attack = x;
+      this.updateInfoString();
+   }
+   public void setDefence(int x){
+      this.defence = x;
+      this.updateInfoString();
+   }
+   public void setHP(int x){
+      this.hitPoints = x;
+      this.updateInfoString();
+   }
+   public void setEn(int x){
+      this.energy = x;
+      this.updateInfoString();
+   }
+   
+   //varibale getters
+   public String getName(){
+      return this.name;
+   }
+   public int getTypeValue(){
+      return this.typeValue;
+   }
+   public int getAttack(){
+      return this.attack;
+   }
+   public int getDefence(){
+      return this.defence;
+   }
+   public int getHP(){
+      return this.hitPoints;
+   }
+   public int getEn(){
+      return this.energy;
+   }
+
+}
+   
+   
