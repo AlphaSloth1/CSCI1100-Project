@@ -25,9 +25,16 @@ public class Mathemon{
       this.hitPoints = 0;
       this.energy = 0;
       
-      this.updateInfoString();
+      this.updateInfoString();     
+   }
+   
+   public void addStats(){
+      this.attack = this.genRndmInt(4);
+      this.defence = this.genRndmInt(2);
+      this.hitPoints = this.genRndmInt(7)+11;
+      this.energy = this.genRndmInt(5)+5;
       
-      System.out.println(infoString);     
+      this.updateInfoString();  
    }
    
    //update info string, use whenever a value is changed
@@ -35,6 +42,11 @@ public class Mathemon{
       this.infoString = "Name: "+name+"\nType: "+type+"\nAttack: "+attack+"\nDefence: "+defence+"\nHit Points: "+hitPoints+ "\nEnergy: "+energy;
    }
    
+   //generates an integer between 1 and max
+   private int genRndmInt(int max){
+      double d = (Math.ceil(Math.random() * max));
+      return (int) d;
+   }
    //variable setters
    public void setAttack(int x){
       this.attack = x;
@@ -54,6 +66,9 @@ public class Mathemon{
    }
    
    //varibale getters
+   public String getInfo(){
+      return this.infoString;
+   }
    public String getName(){
       return this.name;
    }
@@ -71,6 +86,23 @@ public class Mathemon{
    }
    public int getEn(){
       return this.energy;
+   }
+   
+   //actions
+   
+   public void chooseAction(){
+      System.out.println("chooseAction");
+   }
+   public void actionEffect(Mathemon enemy){
+      System.out.println("actionEffect");
+   }
+   public void attack(Mathemon other){
+      System.out.println("attack");
+      if(this.genRndmInt(2) == 2){
+         this.hitPoints = 0;
+      } else if (this.genRndmInt(2) == 2){
+         other.setHP(0);
+      }
    }
 
 }
