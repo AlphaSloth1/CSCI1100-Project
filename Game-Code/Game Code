@@ -89,8 +89,71 @@ public class PokeMath{
    }
    
    public static boolean mathQuestion(){
-      return true;
+      if(diff.equals("easy")){
+         return easyQuestion();
+      }else if(diff.equals("medium")){
+         return medQuestion();
+      }else if(diff.equals("hard")){
+         return hardQuestion();
+      }else {
+         return false;
+      }
    }
+   
+   public static double numberGenerator(int max, int min){
+      //returns a number between max and min
+      return Math.floor(Math.random()*(max - min) + min);
+   }
+   
+   public static boolean easyQuestion(){
+      Scanner a = new Scanner(System.in);
+      int max = 20, min = 1; //variables so we can easily change difficulty
+      double num1 = numberGenerator(max, min);
+      double num2 = numberGenerator(max, min);
+      double answer = num1 + num2;
+      System.out.print("What is " + num1 + " + " + num2 + "? "); 
+      double playerGuess = a.nextDouble();
+      if(playerGuess == answer){
+         return true;
+      } else {
+         System.out.println("Sorry, the correct answer is " + answer);
+         return false;
+      }
+   }
+   
+   
+   public static boolean medQuestion(){
+      Scanner a = new Scanner(System.in);
+      int max = 10, min = 1; //variables so we can easily change difficulty
+      double num1 = numberGenerator(max, min);
+      double num2 = numberGenerator(max, min);
+      double answer = num1 - num2;
+      System.out.print("What is " + num1 + " - " + num2 + "? "); 
+      double playerGuess = a.nextDouble();
+      if(playerGuess == answer){
+         return true;
+      } else {
+         System.out.println("Sorry, the correct answer is " + answer);
+         return false;
+      }
+   }
+   
+   public static boolean hardQuestion(){
+      Scanner a = new Scanner(System.in);
+      int max = 10, min = 1; //variables so we can easily change difficulty
+      double num1 = numberGenerator(max, min);
+      double num2 = numberGenerator(max, min);
+      double answer = num1 * num2;
+      System.out.print("What is " + num1 + " x " + num2 + "? "); 
+      double playerGuess = a.nextDouble();
+      if(playerGuess == answer){
+         return true;
+      } else {
+         System.out.println("Sorry, the correct answer is " + answer);
+         return false;
+      }
+   }
+
    
    public static void gameOver(){
    
