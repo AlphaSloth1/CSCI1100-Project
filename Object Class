@@ -1,8 +1,10 @@
 //class for Mathemon, used for generation
 import java.lang.Math;
+import java.util.Scanner;
 
 public class Mathemon{
-
+   
+   //defining variables
    String name;
    String type;
    
@@ -10,8 +12,15 @@ public class Mathemon{
    int typeValue;   
    int attack;
    int defence;
+   int initialHitPoints;
    int hitPoints;
    int energy;
+   
+   String action1 = "";
+   String action2 = "";
+   String action3 = "";
+   
+   String currentAction = "";
    
    //string that outputs useful info
    String infoString = "";
@@ -33,6 +42,8 @@ public class Mathemon{
       this.defence = this.genRndmInt(2);
       this.hitPoints = this.genRndmInt(7)+11;
       this.energy = this.genRndmInt(5)+5;
+      
+      this.initialHitPoints = this.hitPoints;
       
       this.updateInfoString();  
    }
@@ -81,6 +92,9 @@ public class Mathemon{
    public int getDefence(){
       return this.defence;
    }
+   public int getInitHP(){
+      return this.initialHitPoints;
+   }
    public int getHP(){
       return this.hitPoints;
    }
@@ -91,18 +105,41 @@ public class Mathemon{
    //actions
    
    public void chooseAction(){
-      System.out.println("chooseAction");
-   }
-   public void actionEffect(Mathemon enemy){
-      System.out.println("actionEffect");
-   }
-   public void attack(Mathemon other){
-      System.out.println("attack");
-      if(this.genRndmInt(2) == 2){
-         this.hitPoints = 0;
-      } else if (this.genRndmInt(2) == 2){
-         other.setHP(0);
+      Scanner a = new Scanner(System.in);
+      System.out.println("Please choose an action");
+      String action = a.next();
+      if (action.equals("attack")){
+         this.currentAction = "attack";
+      } else if(action.equals(this.action1)){
+         currentAction = this.action1;
+      } else if(action.equals(this.action2)){
+         currentAction = this.action2;
+      } else if(action.equals(this.action3)){
+         currentAction = this.action3;
+      } else {
+         System.out.println("Invalid Action");
+         this.chooseAction();
       }
+   }
+   
+   public void actionEffect(Mathemon enemy){
+      
+      if (this.currentAction.equals("attack")){
+         this.attack(enemy);
+      } else {
+         System.out.println("Action not implemented, you use Attack instead");
+         this.attack(enemy);
+      }     
+   }
+   
+   public void attack(Mathemon other){
+      System.out.println(this.name+ " attacks "+other.name);
+      int dmg = (this.genRndmInt(6)+this.attack)-(this.genRndmInt(4)+other.defence);
+      if (dmg < 0){
+         dmg = 0;
+      }
+      System.out.println("Damage: " + dmg);
+      other.hitPoints = other.hitPoints - dmg;
    }
 
 }
