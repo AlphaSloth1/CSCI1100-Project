@@ -16,6 +16,7 @@ public class PokeMath{
       Scanner a = new Scanner(System.in);
       int gameDiff = 1;
       boolean inGame = true;
+      String diff = "";
          
       System.out.println("Enter a name for you Mathemon");
       String name = a.next();
@@ -38,8 +39,10 @@ public class PokeMath{
       }
      
       System.out.println(""); 
-      System.out.println("Choose a difficulty (easy, medium, hard)");
-      String diff = a.next();
+      while(!(diff.equals("easy") || diff.equals("medium") || diff.equals("hard"))){
+         System.out.println("Choose a difficulty (easy, medium, hard)");
+         diff = a.next();
+      }
          
       while(inGame == true){
          double d = (Math.ceil(Math.random() * 4));
@@ -47,11 +50,11 @@ public class PokeMath{
          
          for (int i = 0; i<fights; i++){
             plot.PlotDecision();
-            fight(player);
+            fight(player, diff);
          }
             
          plot.PlotDecision();
-         bossFight(player);
+         bossFight(player, diff);
             
          gameDiff++;
          System.out.println("Do you want to continue?");
@@ -62,33 +65,55 @@ public class PokeMath{
       gameOver();
   }
    
-    public static void fight(Mathemon player){
+    public static void fight(Mathemon player, String diff){
       Mathemon opp = new Mathemon(getName(), getType());
       opp.addStats();
       System.out.println("You encounter a "+opp.type);
       while (1 == 1){
          System.out.println("Choose an action");
          player.chooseAction();
-         if(mathQuestion()){
+         if(mathQuestion(diff)){
             player.actionEffect(opp);
          }
-         if(opp.getHP() == 0){
+         if(opp.getHP() <= 0){
             System.out.println("The "+opp.type+" has been defeated");
             break;           
          }
          opp.attack(player);
-         if (player.getHP() == 0){
+         if (player.getHP() <= 0){
             System.out.println("You have been defeated. \nGAME OVER!!!");
             gameOver();
          }
-      }        
+         System.out.println("Your HP: "+player.getHP()+" Opponents HP: "+opp.getHP());
+      }
+      player.setHP(player.getInitHP());
+      System.out.println("You recover from the fight, HP is now full");         
    }
    
-   public static void bossFight(Mathemon player){
-      System.out.println("You fight a boss");
+   public static void bossFight(Mathemon player, String diff){
+      Mathemon opp = new Mathemon(getName(), "Boss");
+      opp.addStats();
+      System.out.println("You encounter a "+opp.type);
+      while (1 == 1){
+         System.out.println("Choose an action");
+         player.chooseAction();
+         if(mathQuestion(diff)){
+            player.actionEffect(opp);
+         }
+         if(opp.getHP() <= 0){
+            System.out.println("The "+opp.type+" has been defeated");
+            break;           
+         }
+         opp.attack(player);
+         if (player.getHP() <= 0){
+            System.out.println("You have been defeated. \nGAME OVER!!!");
+            gameOver();
+         }
+         System.out.println("Your HP: "+player.getHP()+" Opponents HP: "+opp.getHP());
+      }  
    }
    
-   public static boolean mathQuestion(){
+   public static boolean mathQuestion(String diff){
       if(diff.equals("easy")){
          return easyQuestion();
       }else if(diff.equals("medium")){
