@@ -4,20 +4,23 @@ import java.lang.Math;
 
 public class PokeMath{
    public static void main(String[] args){
-      
+      //calls the game
       theGame();
        
    }
    
+   //seperate function so that it can be recurred easily
     public static void theGame(){
       
+      //loads in the irrelevant decisons
       PlotStuff plot = new PlotStuff();
       
       Scanner a = new Scanner(System.in);
       int gameDiff = 1;
       boolean inGame = true;
       String diff = "";
-         
+       
+      //game startup  
       System.out.println("Enter a name for you Mathemon");
       String name = a.next();
       System.out.println("Enter a type of Mathemon");
@@ -43,7 +46,8 @@ public class PokeMath{
          System.out.println("Choose a difficulty (easy, medium, hard)");
          diff = a.next();
       }
-         
+       
+      //loop runs gameplay  
       while(inGame == true){
          double d = (Math.ceil(Math.random() * 4));
          int fights = (int) d;
@@ -62,13 +66,17 @@ public class PokeMath{
          if (cont.equals("no"))inGame = false;
       } 
       
+      //calls the end game function if the player wants to quit
       gameOver();
   }
    
+    //base combat function
     public static void fight(Mathemon player, String diff){
+      //create an opponent
       Mathemon opp = new Mathemon(getName(), getType());
       opp.addStats();
       System.out.println("You encounter a "+opp.type);
+      //runs the actual combat
       while (1 == 1){
          System.out.println("Choose an action");
          player.chooseAction();
@@ -86,10 +94,13 @@ public class PokeMath{
          }
          System.out.println("Your HP: "+player.getHP()+" Opponents HP: "+opp.getHP());
       }
+      //heals player after combat has ended
       player.setHP(player.getInitHP());
       System.out.println("You recover from the fight, HP is now full");         
    }
    
+   //this is the same as the normal fight, but a boss
+   //should have slightly increases difficulty
    public static void bossFight(Mathemon player, String diff){
       Mathemon opp = new Mathemon(getName(), "Boss");
       opp.addStats();
@@ -113,6 +124,7 @@ public class PokeMath{
       }  
    }
    
+   //calls the correct difficulty of math question
    public static boolean mathQuestion(String diff){
       if(diff.equals("easy")){
          return easyQuestion();
@@ -130,6 +142,7 @@ public class PokeMath{
       return Math.floor(Math.random()*(max - min) + min);
    }
    
+   //easy difficuty question generator
    public static boolean easyQuestion(){
       Scanner a = new Scanner(System.in);
       int max = 20, min = 1; //variables so we can easily change difficulty
@@ -146,7 +159,7 @@ public class PokeMath{
       }
    }
    
-   
+   //medium difficulty question generator
    public static boolean medQuestion(){
       Scanner a = new Scanner(System.in);
       int max = 10, min = 1; //variables so we can easily change difficulty
@@ -163,6 +176,7 @@ public class PokeMath{
       }
    }
    
+   //hard difficulty question generator
    public static boolean hardQuestion(){
       Scanner a = new Scanner(System.in);
       int max = 10, min = 1; //variables so we can easily change difficulty
@@ -179,7 +193,7 @@ public class PokeMath{
       }
    }
 
-   
+   //end of game, can recur the game to play again
    public static void gameOver(){
    
       Scanner a = new Scanner(System.in);
@@ -193,9 +207,11 @@ public class PokeMath{
       } else gameOver();
    }
    
+   //generates a random name
    public static String getName(){
       return "testName";
    }
+   //generates a random type
    public static String getType(){
       return "testType";
    }
