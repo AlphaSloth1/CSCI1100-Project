@@ -106,17 +106,19 @@ public class Mathemon{
    
    public void chooseAction(){
       Scanner a = new Scanner(System.in);
-      System.out.println("Please choose an action: attack or growl(lowers opponent's defence");
+      System.out.println("Please choose an action: attack, growl, focus, defend, injure");
       String action = a.next();
       if (action.equals("attack")){
          this.currentAction = "attack";
       } else if(action.equals("growl")){
          this.currentAction = "growl";
-      } else if(action.equals(this.action2)){
-         currentAction = this.action2;
-      } else if(action.equals(this.action3)){
-         currentAction = this.action3;
-      } else {
+      } else if(action.equals("defend")){
+         currentAction = "defend";
+      } else if(action.equals("focus")){
+         currentAction = "focus";
+      } else if(action.equals("injure")){ //there's probably a better name for this
+         currentAction = "injure";
+      }else {
          System.out.println("Invalid Action");
          this.chooseAction();
       }
@@ -128,6 +130,12 @@ public class Mathemon{
          this.attack(enemy);
       }else if(this.currentAction.equals("growl")){
          this.lowerDefence(enemy);
+      }else if(this.currentAction.equals("defend")){
+         this.raiseDefence();
+      }else if(this.currentAction.equals("focus")){
+         this.raiseAttack();
+      }else if(this.currentAction.equals("injure")){
+         this.lowerAttack(enemy);
       }else {
          System.out.println("Action not implemented, you use Attack instead");
          this.attack(enemy);
@@ -157,7 +165,33 @@ public class Mathemon{
          other.defence = newDefence;
       }
    }
-
+   
+   public void raiseDefence(){
+      System.out.println("Current Defence: " + this.defence);
+      int defenceRaise = this.genRndmInt(2);
+      this.defence = this.defence + defenceRaise;
+      System.out.println(this.name + " focuses on defence! Defence increased by " + defenceRaise + ". Defence is now " + this.defence);
+   }
+   
+   public void raiseAttack(){
+      System.out.println("Current Attack: " + this.attack);
+      int attackRaise = this.genRndmInt(2);
+      this.attack = this.attack + attackRaise;
+      System.out.println(this.name + " is getting pumped up! Attack increased by " + attackRaise + ". Attack is now " + this.attack);
+   }
+   public void lowerAttack(Mathemon other){
+      int attackReduce = this.genRndmInt(2); //play with this to find a good number
+      int newAttack = other.attack - attackReduce;
+      if(other.attack == 1){
+         System.out.println("Opponent's attack can go no lower.");
+      }else if(newAttack < 1){
+         System.out.println(this.name+ " injures " +other.name+ "! " + other.name + "'s attack is lowered!");
+         other.attack = 1; //makes sure that attack doesn't go lower than 1
+      }else{
+         System.out.println(this.name+ " injures " +other.name+ "! " + other.name + "'s attack is lowered!");
+         other.attack = newAttack;
+      }
+   }
 }
    
    
