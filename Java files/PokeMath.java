@@ -1,29 +1,30 @@
-//attempt at game
+//Runs the game, holds all the non-object methods
 import java.util.Scanner;
 import java.lang.Math;
 
 public class PokeMath{
    public static void main(String[] args){
-      
+      //calls the game
       theGame();
        
    }
    
+   //seperate function so that it can be recurred easily
     public static void theGame(){
       
+      //loads in the irrelevant decisons
       PlotStuff plot = new PlotStuff();
       
       Scanner a = new Scanner(System.in);
-      int gameDiff = 1;
+      int gameDiff = 0;
       boolean inGame = true;
       String diff = "";
-         
+       
+      //game startup  
       System.out.println("Enter a name for you Mathemon");
       String name = a.next();
-      System.out.println("Enter a type of Mathemon");
       
-      String type = a.next();
-      Mathemon player = new Mathemon(name, type);        
+      Mathemon player = new Mathemon(name);        
       System.out.println(player.getInfo());
          
       System.out.println("Oh No, it has no stats!");
@@ -43,32 +44,39 @@ public class PokeMath{
          System.out.println("Choose a difficulty (easy, medium, hard)");
          diff = a.next();
       }
-         
+       
+      //loop runs gameplay  
       while(inGame == true){
          double d = (Math.ceil(Math.random() * 4));
          int fights = (int) d;
          
          for (int i = 0; i<fights; i++){
             plot.PlotDecision();
-            fight(player, diff);
+            fight(player, diff, gameDiff);
          }
             
          plot.PlotDecision();
-         bossFight(player, diff);
+         bossFight(player, diff, gameDiff);
             
          gameDiff++;
+         System.out.println("You have entered the next level of the dungeon.");
          System.out.println("Do you want to continue?");
          String cont = a.next();
          if (cont.equals("no"))inGame = false;
       } 
       
-      gameOver();
+      //calls the end game function if the player wants to quit
+      gameOver(player);
   }
    
-    public static void fight(Mathemon player, String diff){
-      Mathemon opp = new Mathemon(getName(), getType());
+    //base combat function
+    public static void fight(Mathemon player, String diff, int gameDiff){
+      //create an opponent
+      Mathemon opp = new Mathemon(getName());
       opp.addStats();
-      System.out.println("You encounter a "+opp.type);
+      opp.diffBuff(gameDiff);
+      System.out.println("You encounter a "+opp.name);
+      //runs the actual combat
       while (1 == 1){
          System.out.println("Choose an action");
          player.chooseAction();
@@ -76,24 +84,26 @@ public class PokeMath{
             player.actionEffect(opp);
          }
          if(opp.getHP() <= 0){
-            System.out.println("The "+opp.type+" has been defeated");
+            System.out.println("The "+opp.name+" has been defeated");
             break;           
          }
          opp.attack(player);
          if (player.getHP() <= 0){
             System.out.println("You have been defeated. \nGAME OVER!!!");
-            gameOver();
+            gameOver(player);
          }
-         System.out.println("Your HP: "+player.getHP()+" Opponents HP: "+opp.getHP()+" Opponent's Defence: "+opp.getDefence());
+         System.out.println("Your HP: "+player.getHP()+" Opponents HP: "+opp.getHP());
       }
-      player.setHP(player.getInitHP());
-      System.out.println("You recover from the fight, HP is now full");         
+      player.postCombat();        
    }
    
-   public static void bossFight(Mathemon player, String diff){
-      Mathemon opp = new Mathemon(getName(), "Boss");
+   //this is the same as the normal fight, but a boss
+   //should have slightly increases difficulty
+   public static void bossFight(Mathemon player, String diff, int gameDiff){
+      Mathemon opp = new Mathemon("Boss_"+getName());
       opp.addStats();
-      System.out.println("You encounter a "+opp.type);
+      opp.diffBuff(gameDiff + 1);
+      System.out.println("You encounter a "+opp.name);
       while (1 == 1){
          System.out.println("Choose an action");
          player.chooseAction();
@@ -101,18 +111,21 @@ public class PokeMath{
             player.actionEffect(opp);
          }
          if(opp.getHP() <= 0){
-            System.out.println("The "+opp.type+" has been defeated");
+            System.out.println("The "+opp.name+" has been defeated");
             break;           
          }
          opp.attack(player);
          if (player.getHP() <= 0){
             System.out.println("You have been defeated. \nGAME OVER!!!");
-            gameOver();
+            gameOver(player);
          }
          System.out.println("Your HP: "+player.getHP()+" Opponents HP: "+opp.getHP());
       }  
+      player.XP++;
+      player.postCombat();
    }
    
+   //calls the correct difficulty of math question
    public static boolean mathQuestion(String diff){
       if(diff.equals("easy")){
          return easyQuestion();
@@ -130,6 +143,7 @@ public class PokeMath{
       return Math.floor(Math.random()*(max - min) + min);
    }
    
+   //easy difficuty question generator
    public static boolean easyQuestion(){
       Scanner a = new Scanner(System.in);
       int max = 20, min = 1; //variables so we can easily change difficulty
@@ -146,7 +160,7 @@ public class PokeMath{
       }
    }
    
-   
+   //medium difficulty question generator
    public static boolean medQuestion(){
       Scanner a = new Scanner(System.in);
       int max = 10, min = 1; //variables so we can easily change difficulty
@@ -163,6 +177,7 @@ public class PokeMath{
       }
    }
    
+   //hard difficulty question generator
    public static boolean hardQuestion(){
       Scanner a = new Scanner(System.in);
       int max = 10, min = 1; //variables so we can easily change difficulty
@@ -179,25 +194,48 @@ public class PokeMath{
       }
    }
 
-   
-   public static void gameOver(){
+   //end of game, can recur the game to play again
+   public static void gameOver(Mathemon player){
    
       Scanner a = new Scanner(System.in);
       
       System.out.println("Thank you for playing, would you like to play again?");
       String again = a.next();
       if(again.equals("no")){
+        System.out.println("You final score is: "+player.score);
         System.exit(0);
       } else if (again.equals("yes")){
+        System.out.println("Your final score is: "+player.score);
         theGame();
-      } else gameOver();
+      } else gameOver(player);
    }
    
+   //generates a random name
    public static String getName(){
-      return "testName";
-   }
-   public static String getType(){
-      return "testType";
-   }
+      double d = (Math.ceil(Math.random() * 10));
+      int num = (int) d;
+      
+      if (num == 1){
+         return "Addichu";
+      } else if (num == 2){
+         return "Subtractamander";
+      } else if (num == 3){
+         return "Fractoid";
+      } else if (num == 4){
+         return "Plusen";
+      } else if (num == 5){
+         return "Minen";
+      } else if (num == 6){
+         return "Dividypuff";
+      } else if (num == 7){
+         return "Multiplizard";
+      } else if (num == 8){
+         return "Trigtortle";
+      } else if (num == 9){
+         return "Calcfairy";
+      } else if (num == 10){
+         return "Quadralax";
+      } else return "error";
 
+   }
 }
