@@ -12,25 +12,35 @@ public class PokeMath{
    //seperate function so that it can be recurred easily
     public static void theGame(){
       
+      Scanner a = new Scanner(System.in);
+      
+      System.out.println("Welcome to pokeMath, the math battle game. \nYour very own Mathemon adventure is about to unfold!\n");
+      System.out.println("Would you like to learn more about the game? (type 'yes') ");
+      String showGuide = a.next();
+      
+      if(showGuide.equals("yes")){
+         System.out.println("In this game you'll be given a creature with its own unique stats. \nYour Mathemon has attack, defence, hit points and energy. \nAttack is how much damage can be dealt, defence is how much enemy attacks are negated, hit points represent how many attacks you can endure, and energy is used to perform special actions.");
+         System.out.println("These special actions are growl,  focus, defend, and injure. Growl lowers the enemy's defence, focus raises your Mathemon's attack, defend raises your Mathemon's defence, and injure lowers the enemy's attack.\nType 'yes' or 'no' where appropriate to navigate the game world.\nThe game will now begin.\n");
+      }else{
+         System.out.println("Good luck!\n");
+      }
+      
+      
       //loads in the irrelevant decisons
       PlotStuff plot = new PlotStuff();
       
-      Scanner a = new Scanner(System.in);
       int gameDiff = 0;
       boolean inGame = true;
       String diff = "";
        
       //game startup  
-      System.out.println("Enter a name for you Mathemon");
+      System.out.println("Enter a name for your Mathemon");
       String name = a.next();
       
       Mathemon player = new Mathemon(name);        
-      System.out.println(player.getInfo());
-         
-      System.out.println("Oh No, it has no stats!");
       player.addStats();
       System.out.println(player.getInfo());
-      System.out.println("There we go, much better! Do you want to keep these stats?");
+      System.out.println("Stats have been generated. Do you want to keep these stats?");
       String keepStats = a.next();
       while(!(keepStats.equals("yes"))){
          player.addStats();
@@ -92,7 +102,7 @@ public class PokeMath{
             System.out.println("You have been defeated. \nGAME OVER!!!");
             gameOver(player);
          }
-         System.out.println("Your HP: "+player.getHP()+" Opponents HP: "+opp.getHP());
+         System.out.println("Your HP: "+player.getHP()+" || Your energy: " + player.getEn() +"\t Opponents HP: "+opp.getHP());
       }
       player.postCombat();        
    }
@@ -119,7 +129,7 @@ public class PokeMath{
             System.out.println("You have been defeated. \nGAME OVER!!!");
             gameOver(player);
          }
-         System.out.println("Your HP: "+player.getHP()+" Opponents HP: "+opp.getHP());
+         System.out.println("Your HP: "+player.getHP()+" || Your energy: " + player.getEn() + "\t Opponents HP: "+opp.getHP());
       }  
       player.XP++;
       player.postCombat();
@@ -146,7 +156,7 @@ public class PokeMath{
    //easy difficuty question generator
    public static boolean easyQuestion(){
       Scanner a = new Scanner(System.in);
-      int max = 20, min = 1; //variables so we can easily change difficulty
+      int max = 12, min = 1; //variables so we can easily change difficulty
       double num1 = numberGenerator(max, min);
       double num2 = numberGenerator(max, min);
       double answer = num1 + num2;
