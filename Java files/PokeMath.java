@@ -88,7 +88,7 @@ public class PokeMath{
       System.out.println("You encounter a "+opp.name);
       //runs the actual combat
       while (1 == 1){
-         System.out.println("Choose an action");
+
          player.chooseAction();
          if(mathQuestion(diff)){
             player.actionEffect(opp);
@@ -102,7 +102,7 @@ public class PokeMath{
             System.out.println("You have been defeated. \nGAME OVER!!!");
             gameOver(player);
          }
-         System.out.println("Your HP: "+player.getHP()+" || Your energy: " + player.getEn() +"\t Opponents HP: "+opp.getHP());
+         System.out.println("Your HP: "+player.getHP()+" || Your energy: " + player.getEn() +"\t Opponent's HP: "+opp.getHP());
       }
       player.postCombat();        
    }
@@ -115,7 +115,7 @@ public class PokeMath{
       opp.diffBuff(gameDiff + 1);
       System.out.println("You encounter a "+opp.name);
       while (1 == 1){
-         System.out.println("Choose an action");
+
          player.chooseAction();
          if(mathQuestion(diff)){
             player.actionEffect(opp);
@@ -129,7 +129,7 @@ public class PokeMath{
             System.out.println("You have been defeated. \nGAME OVER!!!");
             gameOver(player);
          }
-         System.out.println("Your HP: "+player.getHP()+" || Your energy: " + player.getEn() + "\t Opponents HP: "+opp.getHP());
+         System.out.println("Your HP: "+player.getHP()+" || Your energy: " + player.getEn() + "\t Opponent's HP: "+opp.getHP());
       }  
       player.XP++;
       player.postCombat();
